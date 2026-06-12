@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AZ New - Panneaux LED Casablanca</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Cairo:wght@400;600;700;900&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--black:#1a0000;--dark:#200000;--card:#2a0000;--border:#440000;--white:#fff;--off:#d4a0a0;--red:#C8102E;--rdim:rgba(200,16,46,0.12);--green:#25D366}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+body.ar{font-family:'Cairo',sans-serif}
+body.ar *{direction:rtl;text-align:right}
+
+#ls{position:fixed;inset:0;z-index:999;background:var(--black);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:24px;text-align:center}
+#ls img{width:80px;height:80px;border-radius:16px}
+#ls h1{font-size:28px;font-weight:900}
+#ls p{color:var(--off);font-size:14px}
+.lbtns{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.lbtn{display:flex;flex-direction:column;align-items:center;gap:8px;background:var(--card);border:2px solid var(--border);border-radius:16px;padding:22px 32px;cursor:pointer;color:var(--white);font-family:inherit;font-size:14px}
+.lbtn:active{border-color:var(--red)}
+.lbtn .fl{font-size:36px}
+.lbtn .ln{font-size:17px;font-weight:700}
+.lbtn .ls{font-size:11px;color:var(--off)}
+
+#main{display:none}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:rgba(26,0,0,0.95);border-bottom:1px solid var(--border)}
+.nlogo{display:flex;align-items:center;gap:8px}
+.nlogo img{width:36px;height:36px;border-radius:7px}
+.nlogo span{font-size:18px;font-weight:900}
+.nbtn{background:var(--red);color:#fff;padding:9px 16px;border-radius:10px;text-decoration:none;font-size:13px;font-weight:700;border:none;cursor:pointer;font-family:inherit}
+.nswitch{background:var(--card);color:var(--off);border:1px solid var(--border);padding:7px 12px;border-radius:50px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;margin-right:8px}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 24px 60px}
+.badge{display:inline-block;background:var(--rdim);color:var(--red);border:1px solid rgba(200,16,46,0.4);padding:5px 14px;border-radius:50px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px}
+.hero h1{font-size:clamp(32px,7vw,60px);font-weight:900;line-height:1.1;margin-bottom:18px}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero p{font-size:16px;color:var(--off);max-width:460px;line-height:1.6;margin-bottom:36px}
+.herob{display:inline-block;background:var(--red);color:#fff;padding:14px 28px;border-radius:12px;text-decoration:none;font-size:15px;font-weight:700;border:2px solid rgba(200,16,46,0.5)}
+.pv{margin:40px auto 0;width:min(440px,90vw);aspect-ratio:16/9;background:var(--card);border-radius:12px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
+.ps{width:86%;height:76%;background:linear-gradient(135deg,#1a0000,#3a0010,#1a0000);border-radius:6px;display:grid;place-items:center;border:2px solid rgba(200,16,46,0.4)}
+.pimg{width:56px;height:56px;border-radius:10px;animation:gl 2.5s ease-in-out infinite}
+@keyframes gl{0%,100%{filter:drop-shadow(0 0 8px rgba(200,16,46,0.6))}50%{filter:drop-shadow(0 0 20px rgba(200,16,46,0.9))}}
+
+.sec{padding:70px 24px;max-width:880px;margin:0 auto}
+.slbl{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:10px}
+.sec h2{font-size:clamp(24px,5vw,38px);font-weight:900;margin-bottom:44px}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px 20px}
+.ci{width:40px;height:40px;background:var(--rdim);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:19px;margin-bottom:12px}
+.card h3{font-size:15px;font-weight:700;margin-bottom:6px}
+.card p{font-size:12px;color:var(--off);line-height:1.55}
+.sr{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:50px 0}
+.st{text-align:center;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px 12px}
+.sn{font-size:32px;font-weight:900;color:var(--red)}
+.sl{font-size:11px;color:var(--off);margin-top:5px}
+
+#contact{background:var(--dark);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.ci2{max-width:560px;margin:0 auto;padding:70px 24px}
+.nb{background:rgba(200,16,46,0.08);border:1px solid rgba(200,16,46,0.3);border-radius:9px;padding:12px 14px;font-size:12px;color:#d4a0a0;margin-bottom:18px;line-height:1.55}
+.fg{margin-bottom:12px}
+.fg label{display:block;font-size:11px;font-weight:600;color:var(--off);margin-bottom:6px}
+.fg input,.fg textarea,.fg select{width:100%;background:#2a0000;border:1px solid var(--border);border-radius:9px;padding:12px 14px;color:var(--white);font-size:14px;font-family:inherit;outline:none}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--red)}
+.fg textarea{resize:vertical;min-height:90px}
+.fg select option{background:#2a0000}
+.btag{color:var(--red);font-size:10px;margin-left:5px}
+.bsub{width:100%;background:var(--red);color:#fff;border:none;border-radius:50px;padding:14px;font-size:15px;font-weight:800;cursor:pointer;margin-top:5px;font-family:inherit}
+.ok{display:none;background:rgba(200,16,46,0.08);border:1px solid rgba(200,16,46,0.3);border-radius:9px;padding:16px;text-align:center;color:var(--red);font-weight:600;margin-top:12px}
+
+.slinks{background:var(--dark);border-top:1px solid var(--border);padding:50px 24px;text-align:center}
+.slinks h2{font-size:22px;font-weight:900;margin-bottom:28px}
+.slist{display:flex;flex-direction:column;gap:10px;max-width:380px;margin:0 auto}
+.slink{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:11px;padding:13px 16px;text-decoration:none;color:var(--white)}
+.slink:active{border-color:var(--red)}
+.slink .ic{font-size:20px}
+.slink .lt{text-align:left}
+.slink .lt b{display:block;font-size:13px;font-weight:700}
+.slink .lt span{font-size:11px;color:var(--off)}
+
+footer{text-align:center;padding:32px 24px;color:var(--off);font-size:12px}
+footer strong{color:var(--white)}
+</style>
+</head>
+<body>
+
+<div id="ls">
+  <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCABQAFADASIAAhEBAxEB/8QAGgAAAgMBAQAAAAAAAAAAAAAABAUCAwYAAf/EADgQAAEDAwIDBAYKAwEBAAAAAAECAwQABRESEwYhMRRBYYEVFjJRUpEiNVNxk6GywdHwcnPxQuH/xAAZAQEBAQEBAQAAAAAAAAAAAAACBAEAAwX/xAAtEQABAwMCAwgBBQAAAAAAAAABAAIRAxIhEzEjQWEEIjJRcZHh8EKBobHB0f/aAAwDAQACEQMRAD8A0ttt7V8jquNyW64t1aghAcKUtpBwAAKM9WLT9i7+Mr+a7hP6gZ/zX+o0ZdLkxa4yX5CXFIUsIAQMnP8ARRAESVZUqVdUsYTvAAWXvbVotMtLBt7zupsL1CUpPeRj8qYmy2kWkz+yvY2N7Rvq92cZoKdeeHbg8HZcOU4sJ0g9OXkqiTxRZzE7KY8rZ0benSPZxjGc0MKlwrWtADp55+UHZGbRd5S2Bb3mtCNeTJUrPMDH515emrRaZiY5t7zuWwvUJSk955flVkG9cPW91TsSHKbWpOknry81V0688O3B4PS4cpxYTpB6cvJXjXYhPias2ut9flGrstpTaTP7K8QGd3Rvq92cZpfZGLRd5TjIt7zWhGvJkqVnnj96MVxRZ1QzEMeVslG3p0j2cYxnNDwb1w9b3VOw4cptak6SevLzVW4lBor2OBDp5Z+U39WLT9i7+Mr+aDuMBqxNtz7at1sodSlxtThUlxJOMEGnFruLN0imRHStKAoowsYOR/2guK/qRX+5v9VIgRIU1OpVNUMeTvBBSRi8yLRw/A7OhpW6t3OsHuV4Hxqy+zHLhwlElPJSlbj/ADCenLUKNsPo/wBX43pDs3tuaN7T8XPGar4t7P6vsdk2tnfGnaxp6K6YoZhUhzdYANzcc+6UcO2BN1bcfkOqQyhWgBGMqPn0FD8QWf0RJbShwuMuglBUOYx1Br2x3560a0BoPMrOooJwQfeDVN5uz13kpddSEIQMIQDnHn3mj3beqsaK+uSfAhIkZyXLajND6bqgkeHjXsyM5DmOxnfbaUUnx8ad8PITAt8u9Ojm2ktMA96j/QPnXcQIFwtkS9NAalJDUgDuUO/55HyrLcJa51bfx2/VA262xJcYuyLqxFWFEbaxzx7+tH+rcUw3ZaLw04yyCVqQ3kDw69aQx2XJMhthlOpxxQSkeNPuInm4ENixxFZS0At9Q/8ASuv/AN+VaIjIRq6moGtdv6YCKss5y3cHvymUpUtEggBfTnpFVPXiRd7DKMhDSdp9kDQD3q8T4Udwp2b1cc7ZtbO+rVu4092M5qd99H+g3fR/ZsbzWvZx8XLOKeYUZc3WILc3b+yXMWaRd+H4HZ1tJ2lu51k88q8B4VZfYblv4SiRXlJUtt/mU9Oeo1UzeZFp4fgdnQ0rdW7q1gnor7/GjJ7q71w/bVPlLa5MoIJQOQ9odKzEdUiageC7w3H+1jamwy5IfbYaGXHFBKR4mjkWl1u+NW2XlsrcCdSe8HvFXMW6EmLKkzJEhCGJGyNpIJPjzoQvoOrNAwfpTm6XG3Wptm0OQUzEMISTlWAFfz3+de2q5W65petCICYjchCiNKsgq+XXv8qzzsJhVscnRXXFht/bWlYGQk+yrzqMu2vRLbDmrzpk55fD7vmOdK4qUdnpFtsm6eu++y0XDVmfhqkzHmkmQ3qaYSo4BI6q+49PuzS57he8POuPPKjqWslSju9T8qXXSIIC2Gd1anlNJW6CeSCegHlQWpXxH51hI2hejKdQk1GuGenytXZYLlx4PfisqQla5BwV9OWk1U9Z5FosMoSFtK3X2SNBPcrxHjVtmmu27g9+UyEFaJGAFjlz0iqnrxIu1hlGQlpO0+yBoBHVX30sQpuLqOjw3f4mNiNvHD8X0gY3tuaN/Hxc8Zom5GOWrUYm1s9ub07WNPf0xSVizP3fh+BsONI2lu51555V4fdVt8iO23hOHGcWkuNP+0gnHPUeVbJheRYw1cOySce6hDuDDt87LcTgsS1KjPd6DqP0D4H8q6GZYttz7FGTId7f7CmwsY55ODWWJJJJJJPeakl1xGdDi055nCiM0LleeyjkfL0wnFlGi5v2y4IU0iYktuJPLSrqk/330wh3GLcrnLiyziHlLjA7khr+Ug1lipRVqKiVe8nnXlYHQk/s4eSScx+/n/Ccw4MjiS6yX9YbQVa1rIzpB6AD7h+VQvlietBbUXA6y4cBYGCD7iK7h+9eiH3NbZcZdA1BJ5gjoR86t4ivwuwbZZaU2w2dX0uqj08q3EdUOOK4aB3E64UMYcOOGZtbO+rVu4092M5qd9NvNjd9HmNjea17OPi5ZxQdlguXHhB+K0pCVrkEgq6ctJqt+zv2iwykvuNL3X2SNGeWFeNPMKMtZrEl2btvZO+E/qBn/Nf6jRl0trF0jJYklYQlYWNBwc/00nttwbscdVvuLbzam1qKHEtlSXEk5BBFF+s9q+0f/AVSBEQVNUp1dUvYDvIISifaOHbc8GZcqUhZTqABzy8k0UeGLMIfay9K2dvc1ah7OM5xigb29aLtLS+qdIa0thGBFUe8n96Ym92o2owN9/Gxs6+zq92M4oYVLjWtbBdPP7CDgWfh24vKaiSpS1pTqIJxy8015PtHDlueDMuVKQsp1AA55eSfCoWR+0WiUt9M2Q7rRowYqhjmD+1RvTtou0xMhU6Q0Q2EaRFUe88/zrsQnxNWLnW/eiPVwxZkwzLL0rZDe5q1D2cZzjFDQLPw7cXVNRJUpa0p1EE45eaaMXerUq0mBvvgFna19nV7sZxS+yP2i0SnHkzZDutGjBiqGOef2rsSg017HEl08vsLUWy3MWyKY8crKCoq+mcnJ/5QPFf1Ir/c3+qu9Z7V9o/+AqhbhPbvrbcC3NvL1OpU44pspS2kHOTmmSIgKanTqiqHvB3kkr//2Q==" alt="AZ New">
+  <h1>AZ NEW</h1>
+  <p>Choisissez votre langue / اختر لغتك</p>
+  <div class="lbtns">
+    <button class="lbtn" id="btnfr">
+      <span class="fl">🇫🇷</span>
+      <span class="ln">Français</span>
+      <span class="ls">Continuer en français</span>
+    </button>
+    <button class="lbtn" id="btnar">
+      <span class="fl">🇲🇦</span>
+      <span class="ln">العربية</span>
+      <span class="ls">المتابعة بالعربية</span>
+    </button>
+  </div>
+</div>
+
+<div id="main">
+<nav>
+  <div class="nlogo">
+    <img src="data:image/jpeg;base64,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" alt="AZ New">
+    <span>AZ NEW</span>
+  </div>
+  <div style="display:flex;align-items:center">
+    <button class="nswitch" id="sw">🇲🇦 AR</button>
+    <a class="nbtn" href="#contact" id="navbtn">Obtenir un devis</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="badge" id="hbadge">Casablanca - Maroc</div>
+  <h1 id="htitle">Panneaux <em>LED</em><br>sur mesure<br>au Maroc</h1>
+  <p id="hsub">Conception, fabrication et vente de panneaux LED sur mesure pour commerces, cafes, restaurants, hotels, pharmacies, cliniques et entreprises.</p>
+  <a class="herob" href="#contact" id="hbtn">Obtenir un devis →</a>
+  <div class="pv"><div class="ps"><img class="pimg" src="data:image/jpeg;base64,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" alt="AZ New"></div></div>
+</section>
+
+<section class="sec">
+  <div class="slbl" id="slbl">Nos services</div>
+  <h2 id="stitle">Ce que nous faisons</h2>
+  <div class="g3">
+    <div class="card"><div class="ci">🖥️</div><h3 id="s1t">Ecrans LED exterieurs</h3><p id="s1p">Panneaux haute luminosite pour facades et espaces publics.</p></div>
+    <div class="card"><div class="ci">🏪</div><h3 id="s2t">Enseignes LED</h3><p id="s2p">Lettres lumineuses et enseignes sur mesure.</p></div>
+    <div class="card"><div class="ci">🎨</div><h3 id="s3t">Conception graphique</h3><p id="s3p">Design adapte a votre identite visuelle.</p></div>
+    <div class="card"><div class="ci">🔧</div><h3 id="s4t">Installation</h3><p id="s4p">Uniquement a Casablanca, sous conditions. Frais factures separement.</p></div>
+    <div class="card"><div class="ci">⚙️</div><h3 id="s5t">Maintenance</h3><p id="s5p">Suivi et entretien de vos equipements LED.</p></div>
+    <div class="card"><div class="ci">📐</div><h3 id="s6t">Sur mesure</h3><p id="s6p">Toutes tailles selon vos besoins.</p></div>
+  </div>
+  <div class="sr">
+    <div class="st"><div class="sn">500+</div><div class="sl" id="st1">Projets</div></div>
+    <div class="st"><div class="sn">10+</div><div class="sl" id="st2">Ans experience</div></div>
+    <div class="st"><div class="sn">24h</div><div class="sl" id="st3">Reponse</div></div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="ci2">
+    <div class="slbl" id="flbl">Contact</div>
+    <h2 id="ftitle" style="font-size:clamp(22px,4vw,34px);font-weight:900;margin-bottom:12px">Obtenir un devis</h2>
+    <div class="nb" id="fnote">Merci de remplir tous les champs obligatoires (*).</div>
+    <div class="fg"><label id="ln">Votre nom *</label><input type="text" id="fn" placeholder="Mohammed Alami"></div>
+    <div class="fg"><label id="lp">Telephone *</label><input type="tel" id="fp" placeholder="06 XX XX XX XX"></div>
+    <div class="fg">
+      <label id="lb">Budget * <span class="btag" id="btag">prioritaire</span></label>
+      <select id="fb">
+        <option value="">-- Selectionnez --</option>
+        <option value="m5">Moins de 5 000 DH</option>
+        <option value="a">5 000 - 15 000 DH</option>
+        <option value="b">15 000 - 30 000 DH</option>
+        <option value="c">30 000 - 50 000 DH</option>
+        <option value="d">Plus de 50 000 DH</option>
+      </select>
+    </div>
+    <div class="fg"><label id="ld">Dimensions * (largeur x hauteur)</label><input type="text" id="fd" placeholder="Ex: 3m x 2m"></div>
+    <div class="fg">
+      <label id="lf">Faces *</label>
+      <select id="ff">
+        <option value="">-- Choisissez --</option>
+        <option value="s">Simple face</option>
+        <option value="d">Double face</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label id="lc">Type affichage *</label>
+      <select id="fc">
+        <option value="">-- Choisissez --</option>
+        <option value="mono">Monochrome</option>
+        <option value="multi" id="omulti">Multicouleurs (RGB)</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label id="lt2">Type de projet</label>
+      <select id="ftype">
+        <option value="">-- Choisissez --</option>
+        <option value="ext">Ecran LED exterieur</option>
+        <option value="ens">Enseigne lumineuse</option>
+        <option value="pub">Panneau publicitaire</option>
+        <option value="let">Lettres LED</option>
+        <option value="aut">Autre</option>
+      </select>
+    </div>
+    <div class="fg"><label id="lm">Message</label><textarea id="fm" placeholder="Emplacement, delai..."></textarea></div>
+    <button class="bsub" id="bsend" onclick="go()">Envoyer la demande</button>
+    <div class="ok" id="okbox">Redirection vers WhatsApp...</div>
+  </div>
+</section>
+
+<section class="slinks">
+  <div class="slbl" id="soclbl">Retrouvez-nous sur</div>
+  <h2 id="soctitle" style="margin-bottom:28px">Nos liens</h2>
+  <div class="slist">
+    <a class="slink" href="https://lepanneau.ma" target="_blank"><span class="ic">🌐</span><div class="lt"><b>Site web</b><span>lepanneau.ma</span></div></a>
+    <a class="slink" href="https://www.instagram.com/reel/DY7VZH4Ihr9/" target="_blank"><span class="ic">📸</span><div class="lt"><b>Instagram</b><span>Voir nos realisations</span></div></a>
+    <a class="slink" href="https://vm.tiktok.com/ZNRWq8Kfa/" target="_blank"><span class="ic">🎥</span><div class="lt"><b>TikTok</b><span>Nos videos</span></div></a>
+    <a class="slink" href="mailto:ste.aznew@gmail.com"><span class="ic">📧</span><div class="lt"><b>Email</b><span>ste.aznew@gmail.com</span></div></a>
+    <a class="slink" href="tel:+212661538844"><span class="ic">📞</span><div class="lt"><b>Telephone</b><span>06 61 53 88 44</span></div></a>
+  </div>
+</section>
+
+<footer>
+  <strong>AZ NEW</strong> - <span id="fcity">Panneaux LED Casablanca, Maroc</span>
+</footer>
+</div>
+
+<script>
+var L = 'fr';
+var TX = {
+  fr: {
+    sw:'AR', navbtn:'Obtenir un devis', hbadge:'Casablanca - Maroc',
+    htitle:'Panneaux <em>LED</em><br>sur mesure<br>au Maroc',
+    hsub:'Conception, fabrication et vente de panneaux LED sur mesure pour commerces, cafes, restaurants, hotels, pharmacies et entreprises.',
+    hbtn:'Obtenir un devis', slbl:'Nos services', stitle:'Ce que nous faisons',
+    s1t:'Ecrans LED exterieurs', s1p:'Panneaux haute luminosite pour facades et espaces publics.',
+    s2t:'Enseignes LED', s2p:'Lettres lumineuses et enseignes sur mesure.',
+    s3t:'Conception graphique', s3p:'Design adapte a votre identite visuelle.',
+    s4t:'Installation', s4p:'Uniquement a Casablanca, sous conditions. Frais factures separement.',
+    s5t:'Maintenance', s5p:'Suivi et entretien de vos equipements LED.',
+    s6t:'Sur mesure', s6p:'Toutes tailles selon vos besoins.',
+    st1:'Projets', st2:'Ans experience', st3:'Reponse',
+    flbl:'Contact', ftitle:'Obtenir un devis',
+    fnote:'Merci de remplir tous les champs obligatoires (*).',
+    ln:'Votre nom *', lp:'Telephone *', lb:'Budget *', btag:'prioritaire',
+    ld:'Dimensions * (largeur x hauteur)', lf:'Faces *', lc:'Type affichage *',
+    lt2:'Type de projet', lm:'Message',
+    bsend:'Envoyer la demande',
+    soclbl:'Retrouvez-nous sur', soctitle:'Nos liens',
+    fcity:'Panneaux LED Casablanca, Maroc',
+    okbox:'Redirection vers WhatsApp...',
+    en:'Veuillez remplir nom et telephone.',
+    eb:'Veuillez indiquer votre budget.',
+    ed:'Veuillez indiquer les dimensions.',
+    ef:'Veuillez choisir simple ou double face.',
+    ec:'Veuillez choisir monochrome ou multicouleurs.',
+    ecw:'Multicouleurs necessite un budget min. de 5 000 DH.',
+    wm:'Bonjour AZ New !
+
+Je souhaite un devis.
+
+',
+    wn:'Nom: ', wp:'Tel: ', wb:'Budget: ', wdim:'Dimensions: ',
+    wf:'Faces: ', wc:'Affichage: ', wt:'Projet: ', wmsg:'Message: ',
+    bvals:{'m5':'Moins de 5 000 DH','a':'5 000 - 15 000 DH','b':'15 000 - 30 000 DH','c':'30 000 - 50 000 DH','d':'Plus de 50 000 DH'},
+    fvals:{'s':'Simple face','d':'Double face'},
+    cvals:{'mono':'Monochrome','multi':'Multicouleurs (RGB)'},
+    tvals:{'ext':'Ecran LED exterieur','ens':'Enseigne lumineuse','pub':'Panneau publicitaire','let':'Lettres LED','aut':'Autre'}
+  },
+  ar: {
+    sw:'FR', navbtn:'احصل على عرض سعر', hbadge:'الدار البيضاء - المغرب',
+    htitle:'لوحات <em>LED</em><br>مصنوعة حسب الطلب<br>في المغرب',
+    hsub:'تصميم وتصنيع وبيع لوحات LED للمحلات والمقاهي والمطاعم والفنادق والصيدليات والعيادات والشركات.',
+    hbtn:'احصل على عرض سعر', slbl:'خدماتنا', stitle:'ماذا نقدم',
+    s1t:'شاشات LED خارجية', s1p:'لوحات عالية السطوع للواجهات والاماكن العامة.',
+    s2t:'لافتات LED', s2p:'حروف مضيئة ولافتات مخصصة لمحلك.',
+    s3t:'التصميم الجرافيكي', s3p:'تصميم يتناسب مع هويتك البصرية.',
+    s4t:'التركيب', s4p:'متاح فقط في الدار البيضاء وبشروط. تكاليف التركيب منفصلة.',
+    s5t:'الصيانة', s5p:'متابعة وصيانة معداتك.',
+    s6t:'حسب الطلب', s6p:'جميع الاحجام حسب احتياجاتك.',
+    st1:'مشروع', st2:'سنوات خبرة', st3:'وقت الاستجابة',
+    flbl:'اتصل بنا', ftitle:'احصل على عرض سعر',
+    fnote:'يرجى ملء جميع الحقول الالزامية (*).',
+    ln:'اسمك *', lp:'الهاتف *', lb:'الميزانية *', btag:'الاهم',
+    ld:'الابعاد * (العرض x الارتفاع)', lf:'عدد الوجوه *', lc:'نوع العرض *',
+    lt2:'نوع المشروع', lm:'رسالة',
+    bsend:'ارسال الطلب',
+    soclbl:'تواصل معنا على', soctitle:'روابطنا',
+    fcity:'لوحات LED الدار البيضاء، المغرب',
+    okbox:'جارٍ التحويل الى واتساب...',
+    en:'يرجى ادخال الاسم والهاتف.',
+    eb:'يرجى تحديد الميزانية.',
+    ed:'يرجى تحديد الابعاد.',
+    ef:'يرجى اختيار وجه واحد او وجهان.',
+    ec:'يرجى اختيار احادي او متعدد الالوان.',
+    ecw:'متعدد الالوان يتطلب ميزانية 5,000 درهم على الاقل.',
+    wm:'مرحبا AZ New !
+
+ارغب في عرض سعر.
+
+',
+    wn:'الاسم: ', wp:'الهاتف: ', wb:'الميزانية: ', wdim:'الابعاد: ',
+    wf:'الوجوه: ', wc:'العرض: ', wt:'المشروع: ', wmsg:'رسالة: ',
+    bvals:{'m5':'اقل من 5,000 درهم','a':'5,000 - 15,000 درهم','b':'15,000 - 30,000 درهم','c':'30,000 - 50,000 درهم','d':'اكثر من 50,000 درهم'},
+    fvals:{'s':'وجه واحد','d':'وجهان'},
+    cvals:{'mono':'احادي اللون','multi':'متعدد الالوان (RGB)'},
+    tvals:{'ext':'شاشة LED خارجية','ens':'لافتة مضيئة','pub':'لوحة اعلانية','let':'حروف LED','aut':'اخرى'}
+  }
+};
+
+function st(id, v) { var e = document.getElementById(id); if(e) e.textContent = v; }
+function sh(id, v) { var e = document.getElementById(id); if(e) e.innerHTML = v; }
+
+function apply(l) {
+  var t = TX[l];
+  st('sw', t.sw); st('navbtn', t.navbtn); st('hbadge', t.hbadge);
+  sh('htitle', t.htitle); st('hsub', t.hsub); st('hbtn', t.hbtn);
+  st('slbl', t.slbl); st('stitle', t.stitle);
+  st('s1t',t.s1t); st('s1p',t.s1p); st('s2t',t.s2t); st('s2p',t.s2p);
+  st('s3t',t.s3t); st('s3p',t.s3p); st('s4t',t.s4t); st('s4p',t.s4p);
+  st('s5t',t.s5t); st('s5p',t.s5p); st('s6t',t.s6t); st('s6p',t.s6p);
+  st('st1',t.st1); st('st2',t.st2); st('st3',t.st3);
+  st('flbl',t.flbl); st('ftitle',t.ftitle); st('fnote',t.fnote);
+  st('ln',t.ln); st('lp',t.lp); st('lb',t.lb); st('btag',t.btag);
+  st('ld',t.ld); st('lf',t.lf); st('lc',t.lc); st('lt2',t.lt2); st('lm',t.lm);
+  st('bsend',t.bsend); st('okbox',t.okbox);
+  st('soclbl',t.soclbl); st('soctitle',t.soctitle); st('fcity',t.fcity);
+  var bvals = t.bvals;
+  var fb = document.getElementById('fb');
+  if(fb) { for(var i=1;i<fb.options.length;i++) { var v=fb.options[i].value; if(bvals[v]) fb.options[i].text=bvals[v]; } }
+  var ff = document.getElementById('ff');
+  if(ff) { for(var i=1;i<ff.options.length;i++) { var v=ff.options[i].value; if(t.fvals[v]) ff.options[i].text=t.fvals[v]; } }
+  var fc = document.getElementById('fc');
+  if(fc) { for(var i=1;i<fc.options.length;i++) { var v=fc.options[i].value; if(t.cvals[v]) fc.options[i].text=t.cvals[v]; } }
+  var ftype = document.getElementById('ftype');
+  if(ftype) { for(var i=1;i<ftype.options.length;i++) { var v=ftype.options[i].value; if(t.tvals[v]) ftype.options[i].text=t.tvals[v]; } }
+}
+
+function setLang(l) {
+  L = l;
+  var html = document.documentElement;
+  var body = document.body;
+  if(l === 'ar') {
+    html.setAttribute('dir','rtl');
+    html.setAttribute('lang','ar');
+    body.classList.add('ar');
+  } else {
+    html.setAttribute('dir','ltr');
+    html.setAttribute('lang','fr');
+    body.classList.remove('ar');
+  }
+  apply(l);
+  document.getElementById('ls').style.display = 'none';
+  document.getElementById('main').style.display = 'block';
+}
+
+function checkBudget() {
+  var b = document.getElementById('fb').value;
+  var fc = document.getElementById('fc');
+  var t = TX[L];
+  var warn = document.getElementById('cwarn');
+  if(b === 'm5') {
+    if(fc) { for(var i=0;i<fc.options.length;i++) { if(fc.options[i].value==='multi') { fc.options[i].disabled=true; if(fc.value==='multi') fc.value=''; } } }
+    if(!warn) { var w=document.createElement('p'); w.id='cwarn'; w.style.cssText='color:var(--red);font-size:11px;margin-top:5px;padding:7px 10px;background:rgba(200,16,46,0.08);border-radius:7px'; document.getElementById('fc').parentNode.appendChild(w); }
+    document.getElementById('cwarn').textContent = t.ecw;
+  } else {
+    if(fc) { for(var i=0;i<fc.options.length;i++) { fc.options[i].disabled=false; } }
+    if(warn) warn.textContent = '';
+  }
+}
+
+function getLbl(sel, val) {
+  var el = document.getElementById(sel);
+  if(!el) return val;
+  for(var i=0;i<el.options.length;i++) { if(el.options[i].value===val) return el.options[i].text; }
+  return val;
+}
+
+function go() {
+  var t = TX[L];
+  var n = document.getElementById('fn').value.trim();
+  var p = document.getElementById('fp').value.trim();
+  var b = document.getElementById('fb').value;
+  var d = document.getElementById('fd').value.trim();
+  var f = document.getElementById('ff').value;
+  var c = document.getElementById('fc').value;
+  var ty = document.getElementById('ftype').value;
+  var m = document.getElementById('fm').value.trim();
+  if(!n||!p) { alert(t.en); return; }
+  if(!b) { alert(t.eb); return; }
+  if(!d) { alert(t.ed); return; }
+  if(!f) { alert(t.ef); return; }
+  if(!c) { alert(t.ec); return; }
+  var msg = t.wm;
+  msg += t.wn + n + '
+';
+  msg += t.wp + p + '
+';
+  msg += t.wb + getLbl('fb',b) + '
+';
+  msg += t.wdim + d + '
+';
+  msg += t.wf + getLbl('ff',f) + '
+';
+  msg += t.wc + getLbl('fc',c) + '
+';
+  if(ty) msg += t.wt + getLbl('ftype',ty) + '
+';
+  if(m) msg += t.wmsg + m + '
+';
+  document.getElementById('okbox').style.display = 'block';
+  setTimeout(function() { window.open('https://wa.me/212661538844?text='+encodeURIComponent(msg),'_blank'); }, 600);
+}
+
+window.onload = function() {
+  document.getElementById('btnfr').onclick = function() { setLang('fr'); };
+  document.getElementById('btnar').onclick = function() { setLang('ar'); };
+  document.getElementById('sw').onclick = function() { setLang(L==='fr'?'ar':'fr'); };
+  document.getElementById('fb').onchange = checkBudget;
+};
+</script>
+</body>
+</html>
