@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AZ New - Panneaux LED</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a0000;color:#fff;font-family:Arial,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px;padding:24px;text-align:center}
+img{width:90px;height:90px;border-radius:16px}
+h1{font-size:30px;font-weight:900;margin-top:8px}
+p{color:#d4a0a0;font-size:15px}
+.btns{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+a.btn{display:flex;flex-direction:column;align-items:center;gap:10px;background:#2a0000;border:2px solid #440000;border-radius:16px;padding:24px 36px;text-decoration:none;color:#fff}
+.flag{font-size:44px}
+.name{font-size:20px;font-weight:700}
+.sub{font-size:12px;color:#d4a0a0}
+</style>
+</head>
+<body>
+<img src="data:image/jpeg;base64,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" alt="AZ New">
+<h1>AZ NEW</h1>
+<p>Choisissez votre langue / اختر لغتك</p>
+<div class="btns">
+  <a class="btn" href="fr.html">
+    <span class="flag">🇫🇷</span>
+    <span class="name">Français</span>
+    <span class="sub">Continuer en français</span>
+  </a>
+  <a class="btn" href="ar.html">
+    <span class="flag">🇲🇦</span>
+    <span class="name">العربية</span>
+    <span class="sub">المتابعة بالعربية</span>
+  </a>
+</div>
+</body>
+</html>
